@@ -43,8 +43,12 @@ int slen = len(s);
 if (length - 1 <= 0 || start >= slen || length > slen) {
        return new_ustr("");
 }
-char* cont = calloc(length, sizeof(char));
-strncpy(cont, s.contents + start, length - 1);
+char* cont = calloc(length, sizeof(int));
+int nadd;
+for (int i = 0; i <= start; ++i) {
+	nadd += utf8_codepoint_size(s.contents[i]);
+}
+strncpy(cont, s.contents + nadd, length - 1);
 cont[length] = 0;
 UStr nstr = new_ustr(cont);
 return nstr;
