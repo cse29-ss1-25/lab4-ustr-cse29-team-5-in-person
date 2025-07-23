@@ -76,7 +76,7 @@ UStr join(List* list, UStr separator) {
         return empty;
     }
 
-    // Resize list if needed — you had this logic already
+    // Resize list if needed, (I had this logic already)
     if (list->size >= list->capacity) {
         uint32_t new_capacity = (list->capacity == 0) ? 1 : list->capacity * 2;
         struct UStr* new_data = malloc(new_capacity * sizeof(struct UStr));
