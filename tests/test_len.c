@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "ustr.h"
-
+#include <stdlib.h>
 int main() {
     char input[256];
     while(fgets(input, sizeof(input), stdin)) {
@@ -13,5 +13,7 @@ int main() {
 
         UStr s = new_ustr(input);
         printf("len(%s) = %d\n", s.contents, len(s));
+
+	free(s.contents);
     }
 }
