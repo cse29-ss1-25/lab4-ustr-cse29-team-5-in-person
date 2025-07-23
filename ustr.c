@@ -39,6 +39,16 @@ Returns an empty string on invalid range.
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
 
+	int length = end - start + 1;
+if (length - 1 <= 0 || start >= s.bytes || length > s.bytes) {
+       return new_ustr("");
+}
+char* cont = calloc(length, sizeof(char));
+strncpy(cont, s.contents + start, length);
+cont[length] = 0;
+free(s.contents);
+UStr nstr = new_ustr(cont);
+return nstr;
 }
 
 /*
@@ -47,8 +57,17 @@ concatenating s1 and s2.
 */
 UStr concat(UStr s1, UStr s2) {
 	// TODO: implement this
-
+int size = s1.bytes + s2.bytes + 1;
+char* ncont = calloc(size, sizeof(char));
+strncpy(ncont, s1.contents, s1.bytes);
+strncpy(ncont + s1.bytes, s2.contents, s2.bytes);
+ncont[size - 1] = 0;
+free(s1.contents);
+free(s2.contents);
+UStr constr = new_ustr(ncont);
+return constr;
 }
+
 
 /*
 Given a string s and an index, return a string with the character at index 
