@@ -34,7 +34,7 @@ Given a list of strings and a separator string, returns a single string
 containing all the strings in list joined by the separator.
 */
 
-UStr join(List* list, UStr separator) {
+/*UStr join(List* list, UStr separator) {
     if (list == NULL) {
         UStr empty = {0}; // or call a helper like new_String_empty()
         return empty; //making sure string isn't empty
@@ -56,11 +56,73 @@ UStr join(List* list, UStr separator) {
         list->data = new_data;
         list->capacity = new_capacity;
     }
-
-    new_ustr(&list->contents[list->size], separator.contents);
+    
+    list->data[list->size] = new_ustr(separator.contents);
     list->size += 1;
+    //Storing the returned UStr in the list->data array at position list->size.
 
-    UStr result = {0}; // placeholder return value
+
+    //UStr result = {0}; // placeholder return value
+    UStr result = new_ustr(new_data);
+    free(new_data);
+    return result;
+}
+
+*/
+
+UStr join(List* list, UStr separator) {
+    if (list == NULL) {
+        UStr empty = (UStr){0};
+        return empty;
+    }
+
+    // Resize list if needed — you had this logic already
+    if (list->size >= list->capacity) {
+        uint32_t new_capacity = (list->capacity == 0) ? 1 : list->capacity * 2;
+        struct UStr* new_data = malloc(new_capacity * sizeof(struct UStr));
+        if (new_data == NULL) {
+            UStr empty = (UStr){0};
+            return empty;
+        }
+
+        for (uint32_t i = 0; i < list->size; ++i) {
+            new_data[i] = list->data[i]; // shallow copy
+        }
+
+        free(list->data);
+        list->data = new_data;
+        list->capacity = new_capacity;
+    }
+
+    // Compute total length needed
+    int total_length = 0;
+    int sep_len = strlen(separator.contents);
+    for (int i = 0; i < list->size; i++) {
+        total_length += strlen(list->data[i].contents);
+        if (i < list->size - 1) {
+            total_length += sep_len;
+        }
+    }
+
+    // Allocate buffer
+    char* joined = malloc(total_length + 1); // +1 for '\0'
+    if (joined == NULL) {
+        UStr empty = (UStr){0};
+        return empty;
+    }
+
+    // Fill the buffer
+    joined[0] = '\0'; // start with empty string
+    for (int i = 0; i < list->size; i++) {
+        strcat(joined, list->data[i].contents);
+        if (i < list->size - 1) {
+            strcat(joined, separator.contents);
+        }
+    }
+
+    // Wrap in UStr and return
+    UStr result = new_ustr(joined);
+    free(joined);
     return result;
 }
 
