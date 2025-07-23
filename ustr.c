@@ -38,9 +38,9 @@ Returns an empty string on invalid range.
 */
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
-
+int slen = len(s);
 	int length = end - start + 1;
-if (length - 1 <= 0 || start >= s.bytes || length > s.bytes) {
+if (length - 1 <= 0 || start >= slen || length > slen) {
        return new_ustr("");
 }
 char* cont = calloc(length, sizeof(char));
@@ -56,10 +56,10 @@ concatenating s1 and s2.
 */
 UStr concat(UStr s1, UStr s2) {
 	// TODO: implement this
-int size = s1.bytes + s2.bytes + 1;
+int size = len(s1) + len(s2) + 1;
 char* ncont = calloc(size, sizeof(char));
-strncpy(ncont, s1.contents, s1.bytes);
-strncpy(ncont + s1.bytes, s2.contents, s2.bytes);
+strncpy(ncont, s1.contents, len(s1));
+strncpy(ncont + len(s1), s2.contents, len(s2));
 ncont[size - 1] = 0;
 free(s1.contents);
 free(s2.contents);
