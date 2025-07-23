@@ -44,9 +44,8 @@ if (length - 1 <= 0 || start >= slen || length > slen) {
        return new_ustr("");
 }
 char* cont = calloc(length, sizeof(char));
-strncpy(cont, s.contents + start, length);
+strncpy(cont, s.contents + start, length - 1);
 cont[length] = 0;
-free(s.contents);
 UStr nstr = new_ustr(cont);
 return nstr;
 }
