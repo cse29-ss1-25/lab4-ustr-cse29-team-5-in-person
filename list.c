@@ -55,8 +55,20 @@ Removes the element at the given index and shifts all subsequent elements left.
 Returns 1 on success, 0 if the index is invalid (out of bounds).
 */
 int8_t listRemoveAt(List* list, int32_t index) {
-    // TODO: implement this
-
+	// Checks if index if valid ( within bounds )
+	// if invalid returns 0 as per instructions
+	if ( index < 0 || index >= list->size ) {
+		return 0;
+	}
+	// for loop iterates beginning at index until it hits the last character ( list->size - 1 )
+	for ( int i = index; i < list->size - 1; i++ ) {
+	// replaces each value with value ahead of index to shift all elements to the left, overwritting the character at index
+		list->data[i] = list->data[ i + 1 ];
+	}
+	// removes extra space
+	list->size = list->size - 1;
+	// returns 1 if successful
+	return 1;
 }
 
 /*
