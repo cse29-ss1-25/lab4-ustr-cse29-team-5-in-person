@@ -39,15 +39,22 @@ Returns an empty string on invalid range.
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
 int slen = len(s);
-	int length = end - start + 1;
+int nadd = 0;
+if (!s.is_ascii) {
+for (int i = 0; i <= start; ++i) {
+        nadd += utf8_codepoint_size(s.contents[i]);
+}
+} else {
+	nadd = start;
+}
+
+	
+int length = end - start + 1;
 if (length - 1 <= 0 || start >= slen || length > slen) {
        return new_ustr("");
 }
 char* cont = calloc(length, sizeof(int));
-int nadd;
-for (int i = 0; i <= start; ++i) {
-	nadd += utf8_codepoint_size(s.contents[i]);
-}
+
 strncpy(cont, s.contents + nadd, length - 1);
 cont[length] = 0;
 UStr nstr = new_ustr(cont);
