@@ -57,7 +57,7 @@ UStr join(List* list, UStr separator) {
         list->capacity = new_capacity;
     }
 
-    new_String(&list->data[list->size], separator.contents);
+    new_ustr(&list->contents[list->size], separator.contents);
     list->size += 1;
 
     UStr result = {0}; // placeholder return value
