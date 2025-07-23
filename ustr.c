@@ -46,7 +46,6 @@ if (length - 1 <= 0 || start >= s.bytes || length > s.bytes) {
 char* cont = calloc(length, sizeof(char));
 strncpy(cont, s.contents + start, length);
 cont[length] = 0;
-free(s.contents);
 UStr nstr = new_ustr(cont);
 return nstr;
 }
