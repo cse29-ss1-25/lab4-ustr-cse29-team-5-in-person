@@ -33,10 +33,38 @@ List new_list_from_array(struct UStr* array, int32_t size) {
 Given a list of strings and a separator string, returns a single string 
 containing all the strings in list joined by the separator.
 */
-UStr join(List* list, UStr separator) {
-    // TODO: implement this
 
+UStr join(List* list, UStr separator) {
+    if (list == NULL) {
+        UStr empty = {0}; // or call a helper like new_String_empty()
+        return empty;
+    }
+
+    if (list->size >= list->capacity) {
+        uint32_t new_capacity = (list->capacity == 0) ? 1 : list->capacity * 2;
+        struct UStr* new_data = malloc(new_capacity * sizeof(struct UStr));
+        if (new_data == NULL) {
+            UStr empty = {0};
+            return empty;
+        }
+        
+        for (uint32_t i =0;;i < list->size; ++i) {
+            new_data[i] = list->data[i]; // Shallow copy
+        }
+
+        free(list->data);
+        list->data = new_data;
+        list->capacity = new_capacity;
+    }
+
+    new_String(&list->data[list->size], separator.contents);
+    list->size += 1;
+
+    UStr result = {0}; // placeholder return value
+    return result;
 }
+
+
 
 /*
 Inserts string s into list at index s, shifting elements to the right.
