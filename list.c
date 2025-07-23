@@ -37,7 +37,7 @@ containing all the strings in list joined by the separator.
 UStr join(List* list, UStr separator) {
     if (list == NULL) {
         UStr empty = {0}; // or call a helper like new_String_empty()
-        return empty;
+        return empty; //making sure string isn't empty
     }
 
     if (list->size >= list->capacity) {
@@ -48,7 +48,7 @@ UStr join(List* list, UStr separator) {
             return empty;
         }
         
-        for (uint32_t i =0;;i < list->size; ++i) {
+        for (uint32_t i =0;i < list->size; ++i) {
             new_data[i] = list->data[i]; // Shallow copy
         }
 
