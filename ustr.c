@@ -39,30 +39,7 @@ Returns an empty string on invalid range.
 UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
 int slen = len(s);
-int nadd = 0;
-if (!s.is_ascii) {
-	int i = 0;
-while (i < start) {
-	unsigned char cbyte = (unsigned char) s.contents[i];
-	if ((cbyte < 0x80)) {
-		i++;
-		nadd++;
-	} else if ((cbyte & 0xE0) == 0xC0) {
-		i += 2;
-		nadd += 2;
-	} else if ((cbyte & 0xF0) == 0xE0) {
-		i += 3;
-		nadd += 3;
-	} else if ((cbyte & 0xF8) == 0xF0) {
-		i += 4;
-		nadd += 4;
-	} else {
-		i += 1;
-		nadd++;
-	}
-}
-}
-
+int nadd = bi_of_cpi(s.contents, start);
 	
 int length = end - start + 1;
 if (length - 1 <= 0 || start >= slen || length > slen) {
