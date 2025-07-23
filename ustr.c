@@ -41,11 +41,26 @@ UStr substring(UStr s, int32_t start, int32_t end) {
 int slen = len(s);
 int nadd = 0;
 if (!s.is_ascii) {
-for (int i = 0; i <= start; ++i) {
-        nadd += utf8_codepoint_size(s.contents[i]);
+	int i = 0;
+while (i < start) {
+	unsigned char cbyte = (unsigned char) s.contents[i];
+	if ((cbyte < 0x80)) {
+		i++;
+		nadd++;
+	} else if ((cbyte & 0xE0) == 0xC0) {
+		i += 2;
+		nadd += 2;
+	} else if ((cbyte & 0xF0) == 0xE0) {
+		i += 3;
+		nadd += 3;
+	} else if ((cbyte & 0xF8) == 0xF0) {
+		i += 4;
+		nadd += 4;
+	} else {
+		i += 1;
+		nadd++;
+	}
 }
-} else {
-	nadd = start;
 }
 
 	
