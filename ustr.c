@@ -40,14 +40,15 @@ UStr substring(UStr s, int32_t start, int32_t end) {
 	// TODO: implement this
 int slen = len(s);
 int nadd = bi_of_cpi(s.contents, start);
+int nend = bi_of_cpi(s.contents, end);
 	
-int length = end - start + 1;
+int length = nend - nadd + 1;
 if (length - 1 <= 0 || start >= slen || length > slen) {
        return new_ustr("");
 }
 char* cont = calloc(length, sizeof(int));
 
-strncpy(cont, s.contents + nadd, bi_of_cpi(s.contents, end) - 1);
+strncpy(cont, s.contents + nadd, nend - 1);
 cont[length] = 0;
 UStr nstr = new_ustr(cont);
 return nstr;
