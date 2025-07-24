@@ -47,7 +47,7 @@ if (length - 1 <= 0 || start >= slen || length > slen) {
 }
 char* cont = calloc(length, sizeof(int));
 
-strncpy(cont, s.contents + nadd, length - 1);
+strncpy(cont, s.contents + nadd, bi_of_cpi(s.contents, end) - 1);
 cont[length] = 0;
 UStr nstr = new_ustr(cont);
 return nstr;
